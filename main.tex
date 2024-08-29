@@ -1,0 +1,218 @@
+\documentclass[aspectratio=169]{beamer}  % 长宽比
+
+%% 导入宏包
+\usepackage[UTF8, noindent]{ctexcap}  % 中文支持
+\usepackage{amsfonts, amsmath}  % 数学支持
+\usepackage{verbatim}  % 用于原样显示，常用于插入行内代码
+\usepackage{listings}  % 插入代码并显支持代码高亮
+\usepackage{graphicx, wrapfig}  % 图文混排包
+\usepackage{algorithm, algorithmic}  % 伪代码
+
+%% 样式主题
+\usetheme{Madrid}
+\usecolortheme{default}
+\bibliographystyle{IEEEtrans}  % 参考文献样式
+
+%% 封面页信息
+\title{Beamer 幻灯片制作极简入门}
+% \subtitle{}
+\author[Q.Tom, x.Jerry] % 方括号内填写姓名简称, 可省略
+{Quattro Tom\inst{1} \and xDrive Jerry\inst{2}}
+\institute[TJU] % 方括号内填写机构简称, 可省略
+{
+  \inst{1}
+  College of Electronic and Information Engineering\\
+  Tongji University
+  \and
+  \inst{2}
+  School of Automotive Studies\\
+  Tongji University
+}
+\date{28 Aug, 2024}
+\logo{\includegraphics[scale=0.15]{./src/logo}}
+\definecolor{uoftblue}{RGB}{6,41,88}
+\setbeamercolor{titlelike}{bg=uoftblue}
+\setbeamerfont{title}{series=\bfseries}
+
+%% 正文
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{目录}
+    \tableofcontents
+\end{frame}
+
+\section{组织 Beamer 内容}
+\subsection{导言区设置}
+\begin{frame}{导言区}
+    如图所示, 设置导言区常用配置
+    \begin{figure}[htbp]
+        \centering
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[scale=0.4]{./src/frame1.png}
+            \caption{常用宏包}
+        \end{minipage}
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[scale=0.4]{./src/frame2.png}
+            \caption{封面页信息}
+        \end{minipage}
+    \end{figure}
+\end{frame}
+
+\subsection{基本单元--frame}
+\begin{frame}{帧(frame)}
+    \begin{itemize}
+        \item Beamer 中,用 frame 环境得到帧, 默认整体垂直居中显示.
+        \item 在 frame 后面, 用 \{\} 添加帧的标题, 可选.
+        \item 可以使用 \LaTeX{} 定理类环境.
+        \item 默认帧尺寸为 4:3, 若要更改, 在 documentclass 后加入 [aspectratio=169], 更改为 16:9.
+    \end{itemize}
+\end{frame}
+
+\subsection{目录}
+\begin{frame}{分节 \& 目录}
+    \begin{itemize}
+        \item 使用 part, section, subsection 分节, 不建议使用更深的目录层次.
+        \item 使用 tableofcontents 命令生成目录, 注意该命令必须在单独的帧内使用.
+        \item 使用 partpage 生成标题页, 用法类似.
+    \end{itemize}
+\end{frame}
+
+\section{常用环境}
+\subsection{定理类环境}
+\begin{frame}{定理 \& 区块}
+    \begin{itemize}
+        \item Beamer 中预定义了 theorem, corollary, definition, definitions, fact, example, examples 环境.
+        \item 可以使用 newtheroem 自定义中文定理环境.
+        \item 特别地, ctex 已经将上述环境重定义为中文, 不建议再自行定义.
+        \item proof 环境汉化
+        \item 区块: block, alertblock, exampleblock
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{定理环境举例}
+	\begin{definition}
+		若随机变量 $X$ 服从正态分布, 则其概率密度函数为
+		\begin{align}
+			f(x)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(, t-\mu)^{2}}{2 \sigma^{2}}},
+		\end{align}
+		记作
+		\begin{align}
+			X \sim N(\mu, \sigma^2).
+		\end{align}
+	\end{definition}
+	% \renewcommand{\proofname}{证}
+	\begin{proof}
+		显然成立, QED.
+	\end{proof}
+\end{frame}
+
+\subsection{图表排版}
+\begin{frame}{图表}
+	Beamer 中 figure 和 table 不再是浮动体.
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.05]{./src/demo1.jpg}
+		\caption{示例图片}
+	\end{figure}
+	\begin{table}[!ht]
+		\centering
+		\begin{tabular}{|l|l|l|}
+			\hline
+			Mercedes & S 450 & 3.0T \\ \hline
+			BMW & M760 Li & 4.4T \\ \hline
+			Audi & Rs 6 Avant & 4.0T \\ \hline
+		\end{tabular}
+		\caption{示例表格}
+	\end{table}
+\end{frame}
+
+\begin{frame}{多图并排}
+    \begin{figure}[htbp]
+        \centering
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[scale=0.08]{./src/demo2.jpg}
+            \caption{Mercedes}
+        \end{minipage}
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \includegraphics[scale=0.08]{./src/demo2.jpg}
+            \caption{AMG}
+        \end{minipage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{图文混排}
+    \begin{wrapfigure}{l}{0.6\textwidth}
+        \centering
+        \includegraphics[scale=0.08]{./src/demo3.jpg}
+    \end{wrapfigure}
+    需添加 wrapfig, graphicx 宏包
+    
+    `l/r' 代表左侧或右侧
+
+    注意调节左右占比和图片大小, 往往需要反复调节
+
+\end{frame}
+
+\subsection{伪代码}
+\begin{frame}{伪代码}
+    \begin{algorithm}[H]  % 使用浮动体, 否则引起报错
+    \caption{Adam Optimizer} 
+    \label{alg1}
+    \begin{algorithmic}
+        \REQUIRE{step size $\alpha$, decay rates $\beta_1, \beta_2$, stochastic objective function $f(\theta)$, initial paramater $\theta_0$}
+        \STATE{$m_0 \rightarrow 0, v_0 \rightarrow 0, t \rightarrow 0$}
+        \WHILE{$\theta_t$ not converged}
+            \STATE{$t \rightarrow t + 1$}
+            \STATE{$g_t \rightarrow \nabla_\theta$}
+            \STATE{...}
+        \ENDWHILE
+        \RETURN{$\theta_t$}
+    \end{algorithmic}
+    \end{algorithm}
+\end{frame}
+
+\section{幻灯片外观}
+\subsection{使用主题}
+\begin{frame}{使用主题}
+	\begin{itemize}
+		\item 可以使用 Beamer 预定义的\href{http://latex.artikel-namsu.de/english/themes/uebersicht_beamer.html}{幻灯片主题}, 在导言区用 usetheme 命令载入.
+		\item 使用上述命令, 本质上是载入了 .sty 格式文件, 可以自行编写挂载主题文件.
+		\item 使用主题后, 仍可以单独配置部分设置.
+		\item 注意 ``内容与格式相分离'' 的概念, 在正文中, 尽量只写与文档逻辑结构有关的命令.
+	\end{itemize}
+\end{frame}
+\subsection{动态效果}
+\begin{frame}{动态效果}
+	\begin{itemize}
+		\item 使用 pause 命令, 实现逐步显示.
+		\pause
+		\item 在 tableofcontents 后加上 pausesections 选项, 使目录每项依次展示.
+		\pause
+		\item 使用 onslide 指定内容在第几步显示.
+	\end{itemize}
+\end{frame}
+
+\subsection{bib 引用}
+\begin{frame}{插入引用}
+    \begin{itemize}
+        \item 与 \LaTeX 文档类似, 采用 BibLaTex\cite{ni2019performance} \pause
+        \item 在参考文献较多时, 可考虑采用 allowframebreaks 命令允许分页\cite{ni2021multi,zhang2020model} \pause
+        \item 效果如末尾页所示
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{References} 
+    \bibliography{ref}
+\end{frame}
+
+\end{document}
+
+% \begin{frame}{}
+    
+% \end{frame}
